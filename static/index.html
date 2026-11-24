@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JWT + XSS Lab</title>
+  <link rel="stylesheet" href="/static/lab.css">
+</head>
+<body>
+<main>
+  <h1>JWT storage + XSS in React lab</h1>
+  <p class="banner"><b>Intentionally vulnerable.</b> Use on localhost only.
+     Log out (or use the reset button) before switching strategies, because
+     the server accepts both a Bearer header and the cookie.</p>
+  <div class="card">
+    <ul>
+      <li><a href="/static/local.html">Strategy A: token in localStorage</a></li>
+      <li><a href="/static/memory.html">Strategy B: token in memory</a></li>
+      <li><a href="/static/cookie.html">Strategy C: token in HttpOnly cookie</a></li>
+      <li><a href="/attacker/loot">Attacker loot (what the simulated attacker collected)</a></li>
+    </ul>
+    <button id="reset">Reset browser state (clear localStorage + cookie)</button>
+    <p id="status" class="muted"></p>
+  </div>
+  <p class="muted">Test users: alice / alice-pass (victim), mallory / mallory-pass (attacker).</p>
+</main>
+<script src="/static/reset.js"></script>
+</body>
+</html>

