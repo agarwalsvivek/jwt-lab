@@ -15,7 +15,11 @@ async function api(path, options = {}) {
     },
   });
   let body = null;
-  try { body = await res.json(); } catch (e) { /* no JSON body */ }
+  try {
+    body = await res.json();
+  } catch (e) {
+    /* no JSON body */
+  }
   return { ok: res.ok, status: res.status, body };
 }
 
@@ -23,6 +27,7 @@ async function api(path, options = {}) {
 // The heart of the XSS lesson: three ways to render user-controlled text.
 // ---------------------------------------------------------------------------
 function CommentBody({ text, mode }) {
+  console.log(`text: ${text}`);
   if (mode === "unsafe") {
     // DANGEROUS: React inserts this string as raw HTML.
     return h("p", { dangerouslySetInnerHTML: { __html: text } });
@@ -36,13 +41,14 @@ function CommentBody({ text, mode }) {
 }
 
 function Comment({ comment, mode }) {
-  return h("div", { className: "comment" },
+  return h(
+    "div",
+    { className: "comment" },
     h("span", { className: "author" }, comment.author),
     comment.website
-      ? h("span", { className: "muted" }, " - ",
-          h("a", { href: comment.website }, comment.website))
+      ? h("span", { className: "muted" }, " - ", h("a", { href: comment.website }, comment.website))
       : null,
-    h(CommentBody, { text: comment.text, mode })
+    h(CommentBody, { text: comment.text, mode }),
   );
 }
 
@@ -68,7 +74,10 @@ function App() {
     if (r.ok) setComments(r.body);
   }, []);
 
-  useEffect(() => { refreshMe(); refreshComments(); }, []);
+  useEffect(() => {
+    refreshMe();
+    refreshComments();
+  }, []);
 
   async function onLogin(e) {
     e.preventDefault();
@@ -99,46 +108,97 @@ function App() {
       body: JSON.stringify({ text, website }),
     });
     setInfo("POST /api/comments -> " + r.status);
-    if (r.ok) { setText(""); setWebsite(""); }
+    if (r.ok) {
+      setText("");
+      setWebsite("");
+    }
     await refreshComments();
   }
 
-  return h("div", null,
+  return h(
+    "div",
+    null,
     h("h1", null, "Comments"),
     h("p", { className: "banner" }, "Token storage strategy: ", h("b", null, Auth.name)),
 
-    h("div", { className: "card" },
+    h(
+      "div",
+      { className: "card" },
       user
-        ? h("div", null, "Logged in as ", h("b", null, user), " ",
+        ? h(
+            "div",
+            null,
+            "Logged in as ",
+            h("b", null, user),
+            " ",
             h("button", { onClick: onLogout }, "Log out"),
-            h("button", { onClick: onWhoAmI }, "Who am I?"))
-        : h("form", { onSubmit: onLogin },
-            h("input", { value: username, onChange: (e) => setUsername(e.target.value), placeholder: "username" }),
-            h("input", { type: "password", value: password, onChange: (e) => setPassword(e.target.value), placeholder: "password" }),
-            h("button", { type: "submit" }, "Log in")),
-      info ? h("pre", null, info) : null
+            h("button", { onClick: onWhoAmI }, "Who am I?"),
+          )
+        : h(
+            "form",
+            { onSubmit: onLogin },
+            h("input", {
+              value: username,
+              onChange: (e) => setUsername(e.target.value),
+              placeholder: "username",
+            }),
+            h("input", {
+              type: "password",
+              value: password,
+              onChange: (e) => setPassword(e.target.value),
+              placeholder: "password",
+            }),
+            h("button", { type: "submit" }, "Log in"),
+          ),
+      info ? h("pre", null, info) : null,
     ),
 
-    h("div", { className: "card" },
-      h("label", null, "Render comments as: ",
-        h("select", { value: mode, onChange: (e) => setMode(e.target.value) },
+    h(
+      "div",
+      { className: "card" },
+      h(
+        "label",
+        null,
+        "Render comments as: ",
+        h(
+          "select",
+          { value: mode, onChange: (e) => setMode(e.target.value) },
           h("option", { value: "safe" }, "safe (React escapes text)"),
           h("option", { value: "unsafe" }, "unsafe (dangerouslySetInnerHTML)"),
-          h("option", { value: "sanitized" }, "sanitized (DOMPurify)"))),
-      h("p", { className: "muted" }, "Tip: add ?render=unsafe to the URL to start in that mode.")
+          h("option", { value: "sanitized" }, "sanitized (DOMPurify)"),
+        ),
+      ),
+      h("p", { className: "muted" }, "Tip: add ?render=unsafe to the URL to start in that mode."),
     ),
 
-    h("div", { className: "card" },
-      h("form", { onSubmit: onPost },
-        h("textarea", { rows: 3, value: text, onChange: (e) => setText(e.target.value), placeholder: "Write a comment (must be logged in)" }),
-        h("input", { value: website, onChange: (e) => setWebsite(e.target.value), placeholder: "website (optional)", size: 40 }),
-        h("button", { type: "submit" }, "Post"))
+    h(
+      "div",
+      { className: "card" },
+      h(
+        "form",
+        { onSubmit: onPost },
+        h("textarea", {
+          rows: 3,
+          value: text,
+          onChange: (e) => setText(e.target.value),
+          placeholder: "Write a comment (must be logged in)",
+        }),
+        h("input", {
+          value: website,
+          onChange: (e) => setWebsite(e.target.value),
+          placeholder: "website (optional)",
+          size: 40,
+        }),
+        h("button", { type: "submit" }, "Post"),
+      ),
     ),
 
-    h("div", { className: "card" },
+    h(
+      "div",
+      { className: "card" },
       comments.length === 0 ? h("p", { className: "muted" }, "No comments yet.") : null,
-      comments.map((c) => h(Comment, { key: c.id, comment: c, mode }))
-    )
+      comments.map((c) => h(Comment, { key: c.id, comment: c, mode })),
+    ),
   );
 }
 

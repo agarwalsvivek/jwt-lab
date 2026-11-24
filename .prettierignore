@@ -1,0 +1,5 @@
+.venv/
+node_modules/
+package-lock.json
+# Payloads are exact attack strings; reformatting could change them.
+payloads/

@@ -1,0 +1,30 @@
+{
+  "name": "jwt-lab",
+  "version": "1.0.0",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agarwalsvivek/jwt-lab.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/agarwalsvivek/jwt-lab/issues"
+  },
+  "homepage": "https://github.com/agarwalsvivek/jwt-lab#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.14.0",
+    "prettier": "^3.10.1"
+  },
+  "private": true
+}
